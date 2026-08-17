@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rediseñar la evaluación en tiempos de IA — Actividad de sala</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IBM+Plex+Mono:wght@500;600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --paper: #EDE8DC;
+    --paper-deep: #E2DCCB;
+    --rule-line: #CFC6AE;
+    --margin-red: #B0463A;
+    --ink: #232323;
+    --ink-soft: #55524a;
+    --accent-naturales: #3F7D58;
+    --accent-sociales: #A5762E;
+    --accent-lengua: #7A2E45;
+    --accent-matematica: #33507E;
+    --card-bg: #F7F4EA;
+    --shadow: 0 10px 24px -14px rgba(35,35,35,0.35);
+  }
+
+  *{box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 34px,
+        var(--rule-line) 35px
+      ),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.5;
+    position:relative;
+    padding-left:clamp(28px, 6vw, 64px);
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    top:0; bottom:0;
+    left:clamp(18px, 4.2vw, 46px);
+    width:2px;
+    background:var(--margin-red);
+    opacity:0.55;
+    z-index:0;
+  }
+
+  .wrap{
+    position:relative;
+    z-index:1;
+    max-width:920px;
+    margin:0 auto;
+    padding: clamp(28px,5vw,56px) clamp(16px,4vw,32px) 64px;
+  }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--margin-red);
+    font-weight:600;
+    margin:0 0 10px;
+  }
+
+  h1{
+    font-family:'Special Elite', monospace;
+    font-weight:400;
+    font-size:clamp(28px, 4.4vw, 42px);
+    line-height:1.15;
+    margin:0 0 14px;
+    color:var(--ink);
+  }
+
+  .subtitle{
+    font-size:15.5px;
+    color:var(--ink-soft);
+    max-width:56ch;
+    margin:0 0 34px;
+  }
+
+  /* ---- consigna box ---- */
+  .consigna{
+    background:var(--card-bg);
+    border:1px solid var(--rule-line);
+    border-radius:2px;
+    padding:22px clamp(18px,4vw,30px) 26px;
+    box-shadow:var(--shadow);
+    position:relative;
+    margin-bottom:10px;
+  }
+  .consigna::before, .consigna::after{
+    content:"";
+    position:absolute; left:22px; right:22px;
+    border-top:1.5px dashed #B9AF97;
+  }
+  .consigna::before{ top:0; }
+  .consigna::after{ bottom:0; }
+  .consigna-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:14px 0 12px;
+  }
+  .consigna p{ margin:0 0 12px; font-size:16px; }
+  .consigna ul{ margin:0 0 4px; padding-left:20px; }
+  .consigna li{ margin-bottom:7px; font-size:15.5px; }
+  .roles-line{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:26px 0 18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .roles-line::after{
+    content:"";
+    flex:1;
+    border-top:1px solid var(--rule-line);
+  }
+
+  /* ---- grid de fichas ---- */
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-bottom:8px;
+  }
+  @media (max-width: 660px){
+    .grid{ grid-template-columns:1fr; }
+  }
+
+  .ficha{
+    background:var(--card-bg);
+    border:1px solid var(--rule-line);
+    border-top:6px solid var(--accent);
+    border-radius:2px;
+    padding:20px 20px 22px;
+    position:relative;
+    box-shadow:var(--shadow);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .ficha:hover{ transform:translateY(-3px); box-shadow:0 16px 30px -16px rgba(35,35,35,0.4); }
+
+  .ficha-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:12px;
+  }
+  .ficha-head svg{ width:26px; height:26px; flex-shrink:0; color:var(--accent); }
+  .ficha-head h2{
+    font-family:'Special Elite', monospace;
+    font-weight:400;
+    font-size:18px;
+    margin:0;
+    line-height:1.25;
+    color:var(--ink);
+  }
+
+  .ficha p.desc{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin:0 0 18px;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:.04em;
+    text-decoration:none;
+    color:#fff;
+    background:var(--accent);
+    padding:10px 14px;
+    border-radius:3px;
+    transition:filter .15s ease, transform .15s ease;
+  }
+  .btn:hover{ filter:brightness(1.08); transform:translateX(2px); }
+  .btn:focus-visible{ outline:3px solid var(--ink); outline-offset:2px; }
+  .btn svg{ width:14px; height:14px; }
+
+  .ficha[data-g="naturales"]{ --accent: var(--accent-naturales); }
+  .ficha[data-g="sociales"]{ --accent: var(--accent-sociales); }
+  .ficha[data-g="lengua"]{ --accent: var(--accent-lengua); }
+  .ficha[data-g="matematica"]{ --accent: var(--accent-matematica); }
+
+  footer{
+    margin-top:40px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    opacity:.75;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Encuentro sincrónico — actividad grupal por sala</p>
+  <h1>Rediseñar la evaluación<br>en tiempos de IA</h1>
+  <p class="subtitle">Cada sala recibe un instrumento de evaluación ya diseñado para su área. Analícenlo en grupos y compartan sus conclusiones.</p>
+
+  <div class="consigna">
+    <p class="consigna-label">Consigna</p>
+    <p>Analicen en grupos la evaluación asignada desde su criterio pedagógico:</p>
+    <ul>
+      <li>¿Qué fortalezas y limitaciones tiene?</li>
+      <li>¿Qué mantendrían, modificarían o agregarían?</li>
+      <li>Consideren los desafíos en contextos con acceso a IA generativa.</li>
+    </ul>
+  </div>
+
+  <p class="roles-line">Busquen la ficha de su disciplina</p>
+
+  <div class="grid">
+
+    <!-- FICHA 1 — CIENCIAS NATURALES -->
+    <div class="ficha" data-g="naturales">
+      <div class="ficha-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20c-6-1-9-6-9-11 5 0 9 1 11 5 1.5 3 .5 5-2 6z"/><path d="M11 20c1-4 3-7 8-9"/></svg>
+        <h2>Ciencias Naturales</h2>
+      </div>
+      <p class="desc">Instrumento de evaluación asignado a este grupo.</p>
+      <a class="btn" href="https://drive.google.com/file/d/19GU-e1Au3rv2WT82FQJMfO21nWlnHglP/view?usp=drive_link" target="_blank" rel="noopener">
+        Abrir instrumento
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
+
+    <!-- FICHA 2 — CIENCIAS SOCIALES / HUMANIDADES -->
+    <div class="ficha" data-g="sociales">
+      <div class="ficha-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.4 3.8 5.4 3.8 8.5s-1.3 6.1-3.8 8.5c-2.5-2.4-3.8-5.4-3.8-8.5S9.5 5.9 12 3.5z"/></svg>
+        <h2>Cs. Sociales / Humanidades</h2>
+      </div>
+      <p class="desc">Instrumento de evaluación asignado a este grupo.</p>
+      <a class="btn" href="https://drive.google.com/file/d/1hmX5vv_L63RGteDKaPL8Kp3m5CrKpota/view?usp=drive_link" target="_blank" rel="noopener">
+        Abrir instrumento
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
+
+    <!-- FICHA 3 — LENGUA / COMUNICACIÓN -->
+    <div class="ficha" data-g="lengua">
+      <div class="ficha-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H10l-4.5 4v-4H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>
+        <h2>Lengua / Comunicación</h2>
+      </div>
+      <p class="desc">Instrumento de evaluación asignado a este grupo.</p>
+      <a class="btn" href="https://drive.google.com/file/d/1xCKw9MDbgyF0jRPp7l-TpuilN44EHufD/view?usp=drive_link" target="_blank" rel="noopener">
+        Abrir instrumento
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
+
+    <!-- FICHA 4 — MATEMÁTICA -->
+    <div class="ficha" data-g="matematica">
+      <div class="ficha-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 15 4l5 16"/><path d="M8.3 14h9"/></svg>
+        <h2>Matemática</h2>
+      </div>
+      <p class="desc">Instrumento de evaluación asignado a este grupo.</p>
+      <a class="btn" href="https://drive.google.com/file/d/1Uv7qg6u3eV0Jk8hkMCZNa4eo6HXTKInJ/view?usp=drive_link" target="_blank" rel="noopener">
+        Abrir instrumento
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
+
+  </div>
+
+  <footer>Rediseñar la evaluación en tiempos de IA — actividad de sala, encuentro sincrónico</footer>
+
+</div>
+</body>
+</html>
