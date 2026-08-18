@@ -64,6 +64,18 @@
     padding: clamp(28px,5vw,56px) clamp(16px,4vw,32px) 64px;
   }
 
+  .modulo-tag{
+    font-family:'Special Elite', monospace;
+    font-weight:400;
+    font-size:clamp(26px, 4.2vw, 40px);
+    line-height:1.25;
+    letter-spacing:0;
+    color:var(--margin-red);
+    margin:0 0 16px;
+    padding-bottom:14px;
+    border-bottom:1.5px solid var(--rule-line);
+  }
+
   .eyebrow{
     font-family:'IBM Plex Mono', monospace;
     font-size:12.5px;
@@ -75,12 +87,12 @@
   }
 
   h1{
-    font-family:'Special Elite', monospace;
-    font-weight:400;
-    font-size:clamp(28px, 4.4vw, 42px);
-    line-height:1.15;
-    margin:0 0 14px;
-    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:clamp(16px, 2vw, 19px);
+    line-height:1.3;
+    margin:0 0 10px;
+    color:var(--ink-soft);
   }
 
   .subtitle{
@@ -118,6 +130,45 @@
   .consigna p{ margin:0 0 12px; font-size:16px; }
   .consigna ul{ margin:0 0 4px; padding-left:20px; }
   .consigna li{ margin-bottom:7px; font-size:15.5px; }
+  .consigna-steps{
+    margin:0;
+    padding-left:22px;
+    counter-reset:none;
+  }
+  .consigna-steps li{
+    font-size:16px;
+    margin-bottom:16px;
+    line-height:1.55;
+  }
+  .consigna-steps li::marker{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    color:var(--margin-red);
+  }
+  .consigna-steps li:last-child{ margin-bottom:0; }
+  .consigna-subquestions{
+    list-style:disc;
+    margin:10px 0 0;
+    padding-left:20px;
+  }
+  .consigna-subquestions li{
+    font-size:15px;
+    margin-bottom:6px;
+    line-height:1.5;
+    color:var(--ink-soft);
+  }
+  .consigna-subquestions li::marker{
+    color:var(--ink-soft);
+    font-family:'Work Sans', sans-serif;
+    font-weight:400;
+  }
+  .consigna-subquestions li:last-child{ margin-bottom:0; }
+  .menti-link{
+    color:var(--margin-red);
+    font-weight:600;
+    text-decoration:underline;
+    text-underline-offset:2px;
+  }
   .roles-line{
     font-family:'IBM Plex Mono', monospace;
     font-size:13px;
@@ -217,21 +268,25 @@
 <body>
 <div class="wrap">
 
+  <h1>Rediseñar la evaluación en tiempos de IA</h1>
+  <p class="modulo-tag">Módulo 1. ¿Cómo estamos evaluando en tiempos de IAG?</p>
   <p class="eyebrow">Encuentro sincrónico — actividad grupal por sala</p>
-  <h1>Rediseñar la evaluación<br>en tiempos de IA</h1>
-  <p class="subtitle">Cada sala recibe un instrumento de evaluación ya diseñado para su área. Analícenlo en grupos y compartan sus conclusiones.</p>
 
   <div class="consigna">
     <p class="consigna-label">Consigna</p>
-    <p>Analicen en grupos la evaluación asignada desde su criterio pedagógico:</p>
-    <ul>
-      <li>¿Qué fortalezas y limitaciones tiene?</li>
-      <li>¿Qué mantendrían, modificarían o agregarían?</li>
-      <li>Consideren los desafíos en contextos con acceso a IA generativa.</li>
-    </ul>
+    <ol class="consigna-steps">
+      <li>Analicen en grupo la evaluación asignada teniendo en cuenta los objetivos y contenidos que se propone evaluar. Desde sus experiencias y criterios pedagógicos, conversen sobre sus fortalezas y limitaciones:
+        <ul class="consigna-subquestions">
+          <li>¿Qué mantendrían?</li>
+          <li>¿Qué modificarían, agregarían o evaluarían de otra manera?</li>
+          <li>¿Qué desafíos presenta esta evaluación ante el acceso de los estudiantes a herramientas de IAG?</li>
+        </ul>
+      </li>
+      <li>Escriban sus conclusiones en el Menti (un representante por grupo): <a class="menti-link" href="https://www.menti.com/alvkose18aae" target="_blank" rel="noopener">menti.com/alvkose18aae</a></li>
+    </ol>
   </div>
 
-  <p class="roles-line">Busquen la ficha de su disciplina</p>
+  <p class="roles-line">Busquen la evaluación que corresponda a su área disciplinar</p>
 
   <div class="grid">
 
